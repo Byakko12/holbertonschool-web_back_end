@@ -1,18 +1,13 @@
 #!/usr/bin/env python3
 """Simple helper function"""
 import csv
-from functools import total_ordering
 import math
-from operator import le
-from typing import List
+from typing import List, Tuple, Dict, Any
 
 
-def index_range(page: int, page_size: int) -> tuple[int, int]:
+def index_range(page: int, page_size: int) -> Tuple[int, int]:
     """
-    function should return a tuple of size two containing
-     a start index and an end index corresponding
-      to the range of indexes to return in a list
-      for those particular pagination parameters.
+    Returns a tuple containing a start and end index.
     """
     return (page - 1) * page_size, page * page_size
 
@@ -50,7 +45,7 @@ class Server:
 
         return pages
 
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> List[List]:
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
         """
         returns a dictionary containing the following key-value pairs:
 
