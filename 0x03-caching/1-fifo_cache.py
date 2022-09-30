@@ -26,7 +26,6 @@ class FIFOCache(BaseCaching):
             discarded = self.temp_cache.pop(0)
             del self.cache_data[discarded]
             print("DISCARD: {}".format(discarded))
-            
 
     def get(self, key):
         """
