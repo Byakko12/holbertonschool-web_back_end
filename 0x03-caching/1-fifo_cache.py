@@ -19,19 +19,17 @@ class FIFOCache(BaseCaching):
         """
         Must assign to the dictionary self.cache_data for value key key
         """
+        self.temp_cache.append(key)
         if key is not None or item is not None:
             self.cache_data[key] = item
-        if key not in self.temp_cache:
-            self.temp_cache.append(key)
-        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-            print("{}".format(len(self.cache_data)))
+        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
             discarded = self.temp_cache.pop(0)
             del self.cache_data[discarded]
             print("DISCARD: {}".format(discarded))
+            
 
     def get(self, key):
         """
         Must return the value in self.cache_data linked to key.
         """
         return self.cache_data.get(key, None)
-
