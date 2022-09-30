@@ -9,6 +9,7 @@ class FIFOCache(BaseCaching):
     class FIFOCache that inherits from BaseCaching and is a caching system
     """
     def __init__(self) -> None:
+        """Initialize class instance"""
         super().__init__()
         self.temp_cache = []
     """
