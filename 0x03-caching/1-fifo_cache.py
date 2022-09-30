@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""FIFO caching"""
+"""
+FIFO caching
+"""
 
 BaseCaching = __import__("base_caching").BaseCaching
 
@@ -8,6 +10,7 @@ class FIFOCache(BaseCaching):
     """
     class FIFOCache that inherits from BaseCaching and is a caching system
     """
+
     def __init__(self) -> None:
         """Initialize class instance"""
         super().__init__()
@@ -15,6 +18,7 @@ class FIFOCache(BaseCaching):
     """
     Must assign to the dictionary self.cache_data for value key key
     """
+
     def put(self, key, item):
         self.temp_cache.append(key)
         if key and item:
@@ -26,5 +30,6 @@ class FIFOCache(BaseCaching):
     """
     Must return the value in self.cache_data linked to key
     """
+
     def get(self, key):
         return self.cache_data.get(key)
