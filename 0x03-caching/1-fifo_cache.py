@@ -23,7 +23,8 @@ class FIFOCache(BaseCaching):
             self.cache_data[key] = item
         if key not in self.temp_cache:
             self.temp_cache.append(key)
-        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
+            print("{}".format(len(self.cache_data)))
             discarded = self.temp_cache.pop(0)
             del self.cache_data[discarded]
             print("DISCARD: {}".format(discarded))
@@ -32,6 +33,5 @@ class FIFOCache(BaseCaching):
         """
         Must return the value in self.cache_data linked to key.
         """
-        if key is not None:
-            return self.cache_data.get(key)
-        return None
+        return self.cache_data.get(key, None)
+
