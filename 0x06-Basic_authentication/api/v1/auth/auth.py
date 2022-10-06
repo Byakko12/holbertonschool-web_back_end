@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Module of Auth"""
-from queue import Empty
 from typing import TypeVar, List
 from flask import request
 
@@ -13,7 +12,7 @@ class Auth:
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """Require function"""
-        if path is None or excluded_paths is None or len(excluded_paths) == 0:
+        if path is None or excluded_paths is None or not len(excluded_paths) == 0:
             return True
 
         if path[-1] != '/':
@@ -33,7 +32,7 @@ class Auth:
     def authorization_header(self, request=None) -> str:
         """authorization_header"""
         if request is None:
-            return None
+            return request
         if not request.headers.get("Authorization"):
             return None
         return request.headers.get("Authorization")
