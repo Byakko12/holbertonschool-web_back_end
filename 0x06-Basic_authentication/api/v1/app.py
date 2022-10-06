@@ -18,6 +18,7 @@ if AUTH_TYPE == 'auth':
     from api.v1.auth.auth import Auth
     auth = Auth()
 
+
 @app.errorhandler(401)
 def unauthorized(error) -> str:
     """ Unauthorized error handler
@@ -38,6 +39,7 @@ def not_found(error) -> str:
     """
     return jsonify({"error": "Not found"}), 404
 
+
 @app.before_request
 def before_request() -> str:
     """ method to handler before request """
@@ -52,6 +54,7 @@ def before_request() -> str:
         abort(401)
     if auth.current_user(request) is None:
         abort(403)
+
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
