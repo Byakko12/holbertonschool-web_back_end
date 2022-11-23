@@ -1,3 +1,4 @@
+// Returns an array of student objects
 export default function getListStudents() {
     return [
         { firstName: 'Guillaume', id: 1, location: 'San Francisco' },
