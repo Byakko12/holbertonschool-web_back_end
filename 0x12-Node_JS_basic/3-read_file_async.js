@@ -1,36 +1,50 @@
 const fs = require('fs');
 
-function countStudents(path) {
-  const promise = (res, rej) => {
-    fs.readFile(path, 'utf8', (error, data) => {
-      if (error) rej(Error('Cannot load the database'));
-      const messages = [];
-      let message;
-      const content = data.toString().split('\n');
-      let students = content.filter((item) => item);
-      students = students.map((item) => item.split(','));
-      const nStudents = students.length ? students.length - 1 : 0;
-      message = `Number of students: ${nStudents}`;
-      console.log(message);
-      messages.push(message);
-      const subjects = {};
-      for (const i in students) {
-        if (i !== 0) {
-          if (!subjects[students[i][3]]) subjects[students[i][3]] = [];
-          subjects[students[i][3]].push(students[i][0]);
+const countStudents = (path, printFlag = 1) => new Promise((resolve, reject) => {
+  // Pull data from CSV file
+  try {
+    fs.readFile(path, 'utf-8', (err, data) => {
+      if (err) reject(Error('Cannot load the database'));
+      else {
+        const fileData = data
+          .split('\n')
+          .filter((row) => row !== '' && row.split(',').length >= 4)
+          .map((student) => student.split(','))
+          .slice(1)
+          .reduce((total, currentVal) => {
+            const eslint = total;
+            const subj = currentVal[currentVal.length - 1];
+            const firstName = currentVal[0];
+
+            if (typeof eslint[subj] === 'undefined') eslint[subj] = [firstName];
+            else eslint[subj].push(firstName);
+
+            return eslint;
+          }, {});
+
+        // Prepare Print Statements
+        let totalStudents = 0;
+        let output = '';
+
+        for (const field in fileData) {
+          if (fileData.hasOwnProperty) {
+            totalStudents += fileData[field].length;
+            output += `Number of students in ${field}: ${fileData[field].length}. List: ${fileData[field].join(', ')}\n`;
+          }
         }
+
+        // Print necessary print statements
+        output = (`Number of students: ${totalStudents}\n${output}`).slice(0, -1);
+        if (printFlag) {
+          const p = output.split('\n');
+          for (const str of p) console.log(str);
+        }
+        resolve(output);
       }
-      delete subjects.subject;
-      for (const key of Object.keys(subjects)) {
-        message = `Number of students in ${key}: ${
-          subjects[key].length
-        }. List: ${subjects[key].join(', ')}`;
-        console.log(message);
-        messages.push(message);
-      }
-      res(messages);
     });
-  };
-  return new Promise(promise);
-}
+  } catch (e) {
+    reject(Error('Cannot load the database'));
+  }
+});
+
 module.exports = countStudents;
